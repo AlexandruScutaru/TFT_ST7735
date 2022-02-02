@@ -587,31 +587,28 @@ int16_t TFT_ST7735::getScrollBottom(void)
 /*
 tfa:Top Fixed Area
 bfa:Bottom Fixed Area
+scrollInternalBufferHeight: the actual internal buffer height.
+	came across a 1.44 in display (128x128) that has an internal buffer height of 160
+	this is used to compensate for that offset
 */
-void TFT_ST7735::defineScrollArea(int16_t tfa, int16_t bfa)
+void TFT_ST7735::defineScrollArea(int16_t tfa, int16_t bfa, int16_t scrollInternalBufferHeight)
 {
-	if (_rotation == 1 || _rotation == 3 || _rotation == 2) return;//no scroll for rot 1,3!
-	uint16_t area = 0;
-		if (tfa == 0 && bfa == 0) {
-			bfa = 0;//special
-			//tfa = TFT_ST7735_OFST[_rotation][1];
-			area = _height - tfa - bfa;
-			_scrollTop = 0;
-			_scrollBottom = _height;
-		} else {
-			_scrollTop = tfa;
-			_scrollBottom = bfa;
-			//tfa += TFT_ST7735_OFST[_rotation][1];
-			bfa = _height - bfa/* - TFT_ST7735_OFST[_rotation][1]*/;
-			area = _height - tfa - bfa;
-		}
+	if (_rotation == 1 || _rotation == 3 || _rotation == 2)
+		return;//no scroll for rot 1,3!
 
-		startTransaction();
-		writecommand_cont(CMD_VSCLLDEF);
-		writedata16_cont(tfa);
-		writedata16_cont(area);
-		writedata16_last(bfa);
-		endTransaction();
+	_scrollInternalBufferHeight = scrollInternalBufferHeight;
+	int16_t offset  = _scrollInternalBufferHeight - _height;
+	bfa += offset;
+	_scrollTop = tfa;
+	_scrollBottom = _scrollInternalBufferHeight - bfa;
+	uint16_t area = _scrollInternalBufferHeight - tfa - bfa;
+
+	startTransaction();
+	writecommand_cont(CMD_VSCLLDEF);
+	writedata16_cont(tfa);
+	writedata16_cont(area);
+	writedata16_last(bfa);
+	endTransaction();
 }
 
 

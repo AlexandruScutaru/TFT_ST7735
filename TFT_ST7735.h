@@ -196,7 +196,7 @@ class TFT_ST7735 : public Print {
 	void		setCursor(int16_t x,int16_t y,enum ST7735_centerMode c=NORM);
 	void		getCursor(int16_t &x,int16_t &y);
 	//------------------------------- SCROLL ----------------------------------------------------
-	void 		defineScrollArea(int16_t tfa, int16_t bfa);
+	void 		defineScrollArea(int16_t tfa, int16_t bfa, int16_t scrollInternalBufferHeight = TFT_ST7735_TFTHEIGHT);
 
 	boolean		scroll(int16_t pointer);
 	uint8_t		getScrollDirection(void);
@@ -245,6 +245,7 @@ class TFT_ST7735 : public Print {
 	int16_t					_scrollTop;
 	int16_t					_scrollBottom;
 	uint8_t					_scrollDir;
+	int16_t					_scrollInternalBufferHeight;
 	
 	uint8_t					_rotation;
 	boolean					_portrait;
