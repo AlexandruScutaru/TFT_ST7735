@@ -42,8 +42,8 @@ Default: (defaultFont = arial_2x)
 #define _ST7735_DEF_FONT_PATH			"_fonts/defaultFont.c"
 #define _ST7735_DEF_FONT_NAME			defaultFont
 ----------------------------------------------------------------------------------*/
-#define _ST7735_DEF_FONT_PATH			"_fonts/defaultFont.c"
-#define _ST7735_DEF_FONT_NAME			defaultFont
+//#define _ST7735_DEF_FONT_PATH			"_fonts/defaultFont.c"
+//#define _ST7735_DEF_FONT_NAME			defaultFont
 /*--------------------------------------------------------------------------------
 - Default Background Color & Default Foreground Color -
 When display turns on, it will set the defaul background and foreground.
